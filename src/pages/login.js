@@ -1,17 +1,19 @@
 import "../App.css";
-import { NavLink } from "react-router-dom";
+import { NavLink , useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { auth, signInWithEmailAndPassword } from "../config/Firebase.js";
+// import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   return (
-    <div class="login-main-contaner">
-      <div class="container">
+    <div className="login-main-contaner">
+      <div className="container">
         <h1>Login</h1>
         <form>
-          <div class="form-group">
+          <div className="form-group">
             <label for="username">Email</label>
             <input
               type="text"
@@ -50,6 +52,7 @@ function Login() {
               signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                   // Signed in
+                  navigate('/home')
                   const user = userCredential.user;
                   // ...
                   spinner.style.display = "none";
@@ -104,8 +107,8 @@ function Login() {
           </NavLink>
         </div>
       </div>
-      <div class="spinner" id="sppiner">
-        <div class="spinnerin"></div>
+      <div className="spinner" id="sppiner">
+        <div className="spinnerin"></div>
       </div>
     </div>
   );

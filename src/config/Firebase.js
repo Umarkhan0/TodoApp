@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth , createUserWithEmailAndPassword , signInWithEmailAndPassword , onAuthStateChanged} from "firebase/auth";
+import { getAuth , createUserWithEmailAndPassword , signOut , signInWithEmailAndPassword , onAuthStateChanged} from "firebase/auth";
 import { getFirestore , collection, addDoc , orderBy ,  serverTimestamp , updateDoc , deleteDoc , doc , setDoc , where , query , onSnapshot } from "firebase/firestore";
 
 
@@ -17,4 +17,4 @@ const firebaseConfig = {
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
-export {auth , createUserWithEmailAndPassword , orderBy ,  serverTimestamp, doc , onSnapshot , deleteDoc , query, where ,db , collection, addDoc , updateDoc , setDoc , signInWithEmailAndPassword , onAuthStateChanged}
+export {auth , createUserWithEmailAndPassword , orderBy , signOut ,  serverTimestamp, doc , onSnapshot , deleteDoc , query, where ,db , collection, addDoc , updateDoc , setDoc , signInWithEmailAndPassword , onAuthStateChanged}

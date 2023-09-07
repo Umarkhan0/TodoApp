@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import swal from 'sweetalert';
+import { useNavigate } from "react-router-dom";
 
 import {
     auth,
@@ -10,16 +11,17 @@ import {
     doc
 } from "../config/Firebase";
 let SignUp = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     return (
-        <div class="sign-up-container">
-            <div class="card">
+        <div className="sign-up-container">
+            <div className="card">
                 <h1>Sign Up</h1>
                 <form>
-                    <div class="form-group">
+                    <div className ="form-group">
                         <label for="signup-username">Name</label>
                         <input
                             type="text"
@@ -31,7 +33,7 @@ let SignUp = () => {
                             onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
-                    <div class="form-group">
+                    <div className ="form-group">
                         <label for="signup-username">Email</label>
                         <input
                             type="text"
@@ -43,7 +45,7 @@ let SignUp = () => {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div class="form-group">
+                    <div className ="form-group">
                         <label for="signup-password">Password</label>
                         <input
                             type="password"
@@ -81,7 +83,6 @@ let SignUp = () => {
                                        userNameinput.style.outline = "none"
 
                                         // Signed in
-                                       
                                         const user = userCredential.user;
                                         console.log(user);
                                         await setDoc(doc(db, "users", user.uid)
@@ -91,6 +92,7 @@ let SignUp = () => {
                                         });
 
                                         console.log("Document written with ID: ", user.uid);
+
                                         setPassword("");
                                         setUsername("");
                                         setEmail("");
@@ -101,7 +103,7 @@ let SignUp = () => {
                                         signUpEmailInput.blur();
                                         signUpEmailInput.style.outline = "none";
                                         passwordInput.style.outline = "none";
-
+                                        navigate('/home')
                                     })
                                     .catch((error) => {
                                         const errorCode = error.code;
@@ -170,8 +172,8 @@ let SignUp = () => {
                     </NavLink>
                 </div>
             </div>
-            <div class="spinner" id="sppiner">
-                <div class="spinnerin"></div>
+            <div className="spinner" id="sppiner">
+                <div className="spinnerin"></div>
             </div>
         </div>
     );
