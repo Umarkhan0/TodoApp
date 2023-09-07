@@ -1,10 +1,22 @@
 import "../App.css";
 import { NavLink , useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { auth, signInWithEmailAndPassword } from "../config/Firebase.js";
+import { auth, onAuthStateChanged, signInWithEmailAndPassword } from "../config/Firebase.js";
 // import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigateHome = useNavigate();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigateHome('/home')
+      const uid = user.uid;
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");

@@ -22,7 +22,7 @@ import {
 
 // import { orderBy } from 'firebase/firestore';
 const TodoListPage = () => {
-  const [value, setValue] = useState("");
+  const [valueInput, setValue] = useState("");
   const [todos, setTodos] = useState([]);
   const [todoId, setId] = useState([]);
   const navigate = useNavigate();
@@ -36,6 +36,7 @@ const TodoListPage = () => {
       setValue("")
       setTodos([])
       setId([])
+      // window.location.reload()
       navigate('/login')
       // User is signed out
       // ...
@@ -46,19 +47,19 @@ const TodoListPage = () => {
 
   useEffect(() => {
     const keydownHandler = async (event) => {
-      if (event.key === "Enter"  && value.trim()) {
+      if (event.key === "Enter"   && valueInput.trim()) {
         setValue("")
         setTodos([])
         setId([])
         // navigate('/login')
-        setTodos([...todos, value]);
+        setTodos([...todos, valueInput]);
         setId([...todoId, todoId]);
         onAuthStateChanged(auth, async (user) => {
           if (user) {
 
             let dateFun = async () => {
               const { value: formValues } = await Swal.fire({
-                title: "Multiple inputs",
+                title: "Due Date",
                 allowOutsideClick: false,
                 html: '<input type="date" class="swal2-input">',
                 focusConfirm: false,
@@ -83,7 +84,7 @@ const TodoListPage = () => {
                 document.getElementById("sppinerupdate").style.display =
                   "block";
                 const docRef = await addDoc(collection(db, "todos"), {
-                  value: value,
+                  value: valueInput,
                   email: user.email,
                   time: serverTimestamp(),
                   dueDate: formValues,
@@ -128,10 +129,7 @@ const TodoListPage = () => {
 
 
 
-            setValue("")
-            setTodos([])
-            setId([])
-           
+          
             dateFun();
             
           } else {
@@ -150,7 +148,7 @@ const TodoListPage = () => {
     return () => {
       document.removeEventListener("keydown", keydownHandler);
     };
-  }, [value]);
+  }, [valueInput.trim()]);
   // ...
 
   const displayTextarea = async (id) => {
@@ -180,7 +178,6 @@ const TodoListPage = () => {
         });
         console.log(id);
         document.getElementById("sppinerupdate").style.display = "none";
-        // const containerTodo = document.querySelector(".container-todo");
         if (containerTodo) {
         document.querySelector(".main-container-todo").style.filter = "unset";
         document.querySelector(".main-container-todo").style.pointerEvents =
@@ -194,12 +191,7 @@ const TodoListPage = () => {
     const washingtonRef = doc(db, "todos", id);
     document.getElementById("sppinerupdate").style.display = "block";
     const containerTodo = document.querySelector(".container-todo");
-                if (containerTodo) {
-                  containerTodo.style.filter = "blur(4px)";
-                  document.querySelector(
-                    ".container-todo",
-                  ).style.pointerEvents = "none"
-                }
+              
     await updateDoc(washingtonRef, {
       chack: true
     });
@@ -221,6 +213,7 @@ const TodoListPage = () => {
   let signOutUser = () => {
     signOut(auth).then(() => {
       console.log("signout")
+      setTodos([])
     }).catch((error) => {
     });
   }
@@ -249,7 +242,7 @@ const TodoListPage = () => {
           <input
             type="text"
             className="custom-input"
-            value={value}
+            value={valueInput}
             placeholder="Type something..."
             onChange={(e) => setValue(e.target.value)}
           />
@@ -360,6 +353,8 @@ const TodoListPage = () => {
                   }
                 });
               } else {
+                setValue("");
+                setTodos([]);
               };
             });
           }, [])}

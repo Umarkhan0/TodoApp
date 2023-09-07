@@ -8,10 +8,18 @@ import {
     createUserWithEmailAndPassword,
     db,
     setDoc,
-    doc
+    doc, onAuthStateChanged
 } from "../config/Firebase";
 let SignUp = () => {
     const navigate = useNavigate();
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          navigate('/home')
+          const uid = user.uid;
+          // ...
+        } 
+    })
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -104,6 +112,7 @@ let SignUp = () => {
                                         signUpEmailInput.style.outline = "none";
                                         passwordInput.style.outline = "none";
                                         navigate('/home')
+                                        
                                     })
                                     .catch((error) => {
                                         const errorCode = error.code;
